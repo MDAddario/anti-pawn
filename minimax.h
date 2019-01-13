@@ -17,20 +17,3 @@ int min(int, int);
 
 // Raw play against computer
 void play_against_comp(game*, int);
-
-
-
-
-
-
-
-
-
-/*
-RUINS OF TTT CODE
-// Generate tree, calculate time, and print outcome
-node* tree_generation(int isDebug);
-
-// Play game against perfect opponent
-void play_against_cpu(game* ttt, node* nd, int is_CPU_P1);
-*/
