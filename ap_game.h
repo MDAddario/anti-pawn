@@ -75,22 +75,3 @@ int heuristic_eval(game*);
  * 		<0: In favour of black
  * 		=0: Even position
  */
-
-
-
-
-
-/*
-RUINS OF OLD TTT CODE
-// Struct for node in tic tac toe game tree
-typedef struct tree_node_struct{
-
-	int value;
-	int isTerminal;
-	struct tree_node_struct* children[DIMENSION][DIMENSION];
-
-} node;
-
-// Initialize game tree node attributes
-node* node_init();
-*/
