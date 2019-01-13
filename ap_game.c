@@ -310,23 +310,3 @@ int heuristic_eval(game* ap){
 		}
 	return evaluation;
 }
-
-
-
-
-
-/*
-RUINS OF OLD TTT CODE
-node* node_init(){
-
-	node* nd = (node*)malloc(sizeof(node));
-
-	nd->value = 0;
-	nd->isTerminal = 0;
-	for (int i = 0; i < DIMENSION; i++)
-		for (int j = 0; j < DIMENSION; j++)
-			nd->children[i][j] = NULL;
-
-	return nd;
-}
-*/
