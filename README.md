@@ -1,6 +1,6 @@
 # Anti-pawn
 
-Implementation of minimax algorithm on original game design.
+Implementation of minimax algorithm on an original game design.
 
 # What is anti-pawn?
 
