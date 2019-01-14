@@ -291,9 +291,9 @@ int heuristic_eval(game* ap){
 	if (!ap->isActive){
 
 		if (ap->winner == 1)
-			return INT_MAX;
+			return INT_MAX-1;
 		else
-			return INT_MIN;
+			return INT_MIN+1;
 	}
 
 	int evaluation = 0;
