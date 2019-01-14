@@ -5,7 +5,6 @@
 *		Eventual implementation of alpha-beta pruning.
 *
 * AUTHOR: Michael Lindner-D'Addario
-* DATE: January 13 2019
 ***********************************************************/
 
 #include <stdio.h>
