@@ -4,7 +4,6 @@
 * DESC: Contains all the core logic for the anti-pawn game.
 *
 * AUTHOR: Michael Lindner-D'Addario
-* DATE: January 13 2019
 ***********************************************************/
 
 #include <stdio.h>
