@@ -5,7 +5,6 @@
 *		versus the computer. 
 *
 * AUTHOR: Michael Lindner-D'Addario
-* DATE: January 13 2019
 ***********************************************************/
 
 #include <stdio.h>
