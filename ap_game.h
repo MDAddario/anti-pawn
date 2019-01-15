@@ -10,9 +10,7 @@
  * a player cannot make a move, they lose.
  *
  *
- *
  * STARTING BOARD LAYOUT (DIMENSION = 4)
- *
  *
  * [ BLACK BLACK BLACK BLACK]
  *
@@ -65,8 +63,11 @@ void rollback(game*, int, int, int, int);
 
 // Returns number of potential moves, and associated arrays of moves
 int crude_moves(game*, int**, int**, int**, int**);
+/* Return code:
+ * Number of possible moves
+ */
 
-// Returns an evaluation of the given position
+// Returns a heuristic evaluation of the given position
 int heuristic_eval(game*);
 /* Return codes:
  * INT_MAX: White victory
