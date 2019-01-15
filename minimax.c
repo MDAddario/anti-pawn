@@ -197,6 +197,90 @@ void play_against_comp(game* ap, int human_P1){
 	return;
 }
 
+void computer_brawl(game* ap){
+
+	// Create game if start
+	if (ap == NULL){
+		ap = game_init();
+	}
+
+	print_game(ap);
+
+	// Ensure game not over
+	if (!ap->isActive)
+		return;
+
+	int row_i_me, col_i_me, row_f_me, col_f_me;
+
+	// Find all moves
+	int num_moves, value, temp;
+	int *row_i, *col_i, *row_f, *col_f;
+	num_moves = crude_moves(ap, &row_i, &col_i, &row_f, &col_f);
+
+	// White to move
+	if (ap->ply % 2){
+
+		value = INT_MIN;
+
+		for (int k = 0; k < num_moves; k++){
+
+			// Ignore illegal moves
+			if (make_move(ap, row_i[k], col_i[k], row_f[k], col_f[k]) < 0)
+				continue;
+
+			// Try out move
+			temp = minimax(ap, MAX_DEPTH, INT_MIN, INT_MAX);
+
+			// Find best move
+			if (temp > value){
+
+				value = temp;
+				row_i_me = row_i[k];
+				col_i_me = col_i[k];
+				row_f_me = row_f[k];
+				col_f_me = col_f[k];
+			}
+
+			// Rollback move and repeat
+			rollback(ap, row_i[k], col_i[k], row_f[k], col_f[k]);
+		}
+	}
+	// Black to move
+	else{
+
+		value = INT_MAX;
+
+		for (int k = 0; k < num_moves; k++){
+
+			// Ignore illegal moves
+			if (make_move(ap, row_i[k], col_i[k], row_f[k], col_f[k]) < 0)
+				continue;
+
+			// Try out move
+			temp = minimax(ap, MAX_DEPTH, INT_MIN, INT_MAX);
+
+			// Find best move
+			if (temp < value){
+
+				value = temp;
+				row_i_me = row_i[k];
+				col_i_me = col_i[k];
+				row_f_me = row_f[k];
+				col_f_me = col_f[k];
+			}
+
+			// Rollback move and repeat
+			rollback(ap, row_i[k], col_i[k], row_f[k], col_f[k]);
+		}
+	}
+	// Commit to best move
+	printf("%d %d %d %d\n", row_i_me, col_i_me, row_f_me, col_f_me);
+	make_move(ap, row_i_me, col_i_me, row_f_me, col_f_me);
+
+	computer_brawl(ap);
+	return;
+}
+
 void time_benchmark(){
 
 	// Make game
