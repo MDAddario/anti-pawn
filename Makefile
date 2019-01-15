@@ -2,8 +2,8 @@ SRCS = ap_game.c minimax.c
 OBJS = ${SRCS:.c=.o}
 HDS = ${SRCS:.c=.h}
 
-DIMENSION = 8
-MAX_DEPTH = 5
+DIMENSION = 6
+MAX_DEPTH = 8
 DEFINE = -DDIMENSION=${DIMENSION} -DMAX_DEPTH=${MAX_DEPTH}
 
 all: main
