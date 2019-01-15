@@ -18,5 +18,8 @@ int min(int, int);
 // Raw play against computer
 void play_against_comp(game*, int);
 
+// Witness two computers fight
+void computer_brawl(game*);
+
 // See how long algorithm takes
 void time_benchmark();
