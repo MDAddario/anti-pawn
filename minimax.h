@@ -1,6 +1,6 @@
 // Minimax algorithm to determine evaluation of given position
-// in 2-player game of perfect information
-int minimax(game*, int);
+// in 2-player game of perfect information. Alpha beta pruning.
+int minimax(game*, int, int, int);
 /* Return codes:
  * INT_MAX: Forced win for white
  * INT_MIN: Forced win for black
@@ -17,3 +17,6 @@ int min(int, int);
 
 // Raw play against computer
 void play_against_comp(game*, int);
+
+// See how long algorithm takes
+void time_benchmark();
