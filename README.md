@@ -1,6 +1,6 @@
 # Anti-pawn
 
-Implementation of minimax algorithm on an original game design.
+Implementation of minimax algorithm with alpha-beta pruning on an original game design.
 
 # What is anti-pawn?
 
@@ -12,7 +12,7 @@ Here is where the name comes from. Each player takes their turn moving one anti-
 
 # Why create this?
 
-The whole purpose of the project is to develop a minimax algorithm. I therefore needed a simple game to practice on.
+The whole purpose of the project is to develop a minimax algorithm with a-b pruning. I therefore needed a simple game to practice on.
 
 # "But wait, I found a bug!"
 
