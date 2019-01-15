@@ -126,43 +126,68 @@ void play_against_comp(game* ap, int human_P1){
 	// CPU turn
 	else{
 
-		// Force computer as black
-		if (ap->ply % 2){
-			printf("Computer must play bLack. Closing.\n");
-			return;
-		}
-
 		printf("Its the CPUs turn!\n");
 
 		// Find all moves
-		int num_moves;
+		int num_moves, value, temp;
 		int *row_i, *col_i, *row_f, *col_f;
 		num_moves = crude_moves(ap, &row_i, &col_i, &row_f, &col_f);
 
-		int value = INT_MAX;
-		int temp;
+		// White to move
+		if (ap->ply % 2){
 
-		for (int k = 0; k < num_moves; k++){
+			value = INT_MIN;
 
-			// Ignore illegal moves
-			if (make_move(ap, row_i[k], col_i[k], row_f[k], col_f[k]) < 0)
-				continue;
+			for (int k = 0; k < num_moves; k++){
 
-			// Try out move
-			temp = minimax(ap, MAX_DEPTH, INT_MIN, INT_MAX);
+				// Ignore illegal moves
+				if (make_move(ap, row_i[k], col_i[k], row_f[k], col_f[k]) < 0)
+					continue;
 
-			// Find best move
-			if (temp < value){
+				// Try out move
+				temp = minimax(ap, MAX_DEPTH, INT_MIN, INT_MAX);
 
-				value = temp;
-				row_i_me = row_i[k];
-				col_i_me = col_i[k];
-				row_f_me = row_f[k];
-				col_f_me = col_f[k];
+				// Find best move
+				if (temp > value){
+
+					value = temp;
+					row_i_me = row_i[k];
+					col_i_me = col_i[k];
+					row_f_me = row_f[k];
+					col_f_me = col_f[k];
+				}
+
+				// Rollback move and repeat
+				rollback(ap, row_i[k], col_i[k], row_f[k], col_f[k]);
 			}
+		}
+		// Black to move
+		else{
 
-			// Rollback move and repeat
-			rollback(ap, row_i[k], col_i[k], row_f[k], col_f[k]);
+			value = INT_MAX;
+	
+			for (int k = 0; k < num_moves; k++){
+
+				// Ignore illegal moves
+				if (make_move(ap, row_i[k], col_i[k], row_f[k], col_f[k]) < 0)
+					continue;
+
+				// Try out move
+				temp = minimax(ap, MAX_DEPTH, INT_MIN, INT_MAX);
+
+				// Find best move
+				if (temp < value){
+
+					value = temp;
+					row_i_me = row_i[k];
+					col_i_me = col_i[k];
+					row_f_me = row_f[k];
+					col_f_me = col_f[k];
+				}
+
+				// Rollback move and repeat
+				rollback(ap, row_i[k], col_i[k], row_f[k], col_f[k]);
+			}
 		}
 		// Commit to best move
 		printf("%d %d %d %d\n", row_i_me, col_i_me, row_f_me, col_f_me);
