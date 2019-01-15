@@ -2,7 +2,7 @@
 * FILE: minimax.c
 *
 * DESC: Minimax algorithm used for anti-pawn game.
-*		Eventual implementation of alpha-beta pruning.
+*		Uses alpha-beta pruning.
 *
 * AUTHOR: Michael Lindner-D'Addario
 ***********************************************************/
@@ -10,12 +10,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h> // INT_MAX, INT_MIN
+#include <time.h>
 #include "ap_game.h"
 #include "minimax.h"
 
-// SEE HEADER FILE FOR FUNCTION DESCRIPTIONS //
+// See header file for function descriptions //
 
-int minimax(game* ap, int depth){
+// RETURN PRINCIPLE VARIATION //
+
+int minimax(game* ap, int depth, int alpha, int beta){
 
 	// Check if leaf node
 	if (depth == 0 || (!ap->isActive))
@@ -38,14 +41,15 @@ int minimax(game* ap, int depth){
 				continue;
 
 			// Pick best move
-			value = max(value, minimax(ap, depth-1));
+			value = max(value, minimax(ap, depth-1, alpha, beta));
+			alpha = max(alpha, value);
 			
-			// Rollback move and repeat
+			// Rollback move
 			rollback(ap, row_i[k], col_i[k], row_f[k], col_f[k]);
 
-			// Stop checking if winning move found
-			if (value == INT_MAX)
-				continue;
+			// Pruning
+			if (alpha >= beta)
+				break;
 		}
 	}
 	// Black to move
@@ -60,14 +64,15 @@ int minimax(game* ap, int depth){
 				continue;
 
 			// Pick best move
-			value = min(value, minimax(ap, depth-1));
+			value = min(value, minimax(ap, depth-1, alpha, beta));
+			beta = min(beta, value);
 			
-			// Rollback move and repeat
+			// Rollback move
 			rollback(ap, row_i[k], col_i[k], row_f[k], col_f[k]);
 
-			// Stop checking if winning move found
-			if (value == INT_MIN)
-				continue;
+			// Pruning
+			if (alpha >= beta)
+				break;
 		}
 	}
 	free(row_i);
@@ -123,8 +128,7 @@ void play_against_comp(game* ap, int human_P1){
 
 		// Force computer as black
 		if (ap->ply % 2){
-			printf("Currently computer cannot play white.\n");
-			printf("Computer must play back. Closing.\n");
+			printf("Computer must play bLack. Closing.\n");
 			return;
 		}
 
@@ -145,7 +149,7 @@ void play_against_comp(game* ap, int human_P1){
 				continue;
 
 			// Try out move
-			temp = minimax(ap, MAX_DEPTH);
+			temp = minimax(ap, MAX_DEPTH, INT_MIN, INT_MAX);
 
 			// Find best move
 			if (temp < value){
@@ -164,7 +168,29 @@ void play_against_comp(game* ap, int human_P1){
 		printf("%d %d %d %d\n", row_i_me, col_i_me, row_f_me, col_f_me);
 		make_move(ap, row_i_me, col_i_me, row_f_me, col_f_me);
 	}
-
 	play_against_comp(ap, !human_P1);
+	return;
+}
+
+void time_benchmark(){
+
+	// Make game
+	game* ap = game_init();
+
+	// Time the algorithm
+	clock_t start = clock(), diff;
+	printf("Minimax result is: %d\n", minimax(ap, MAX_DEPTH, INT_MIN, INT_MAX));
+	diff = clock() - start;
+	int msec = diff * 1000 / CLOCKS_PER_SEC;
+
+	// Print output
+	printf("Board size: %d\n", DIMENSION);
+	printf("Max depth: %d\n", MAX_DEPTH);
+	printf("Time taken: %d hours %d minutes %d seconds %d milliseconds\n", 
+		msec/3600000, msec/60000, msec/1000, msec%1000);
+
+	// Care for the environment
+	free(ap);
+
 	return;
 }
