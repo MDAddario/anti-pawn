@@ -11,9 +11,9 @@
 #include <limits.h> // INT_MAX, INT_MIN
 #include "ap_game.h"
 
-// CURRENTLY NO CODE HANDLES IF A POSITION IS FROZEN //
+// See header file for function descriptions //
 
-// SEE HEADER FILE FOR FUNCTION DESCRIPTIONS //
+// CURRENTLY NO CODE HANDLES IF A POSITION IS FROZEN //
 
 game* game_init(){
 
@@ -24,10 +24,10 @@ game* game_init(){
 	ap->isActive = 1;
 
 	// Set empty squares
-	for (int i = 0; i < DIMENSION - 1; i++)
+	for (int i = 0; i < DIMENSION; i++)
 		for (int j = 0; j < DIMENSION; j++){
 			ap->white_array[i][j] = 0;
-			ap->black_array[DIMENSION-i-1][j] = 0;
+			ap->black_array[i][j] = 0;
 		}
 
 	// Fill starting ranks
@@ -150,18 +150,16 @@ int make_move(game* ap, int row_i, int col_i, int row_f, int col_f){
 		else
 			return -1;
 	}
-	// Check for game end
-	return check_end(ap);
 }
 
 int check_end(game* ap){
 
 	// Check white
 	if (ap->ply % 2){
-
 		ap->ply++;
+
 		for (int j = 0; j < DIMENSION; j++)
-			if (ap->white_array[0][j] == 1){
+			if (ap->white_array[0][j]){
 				ap->isActive = 0;
 				ap->winner = 1;
 				return 1;
@@ -169,10 +167,10 @@ int check_end(game* ap){
 	}
 	// Check black
 	else{
-
 		ap->ply++;
+
 		for (int j = 0; j < DIMENSION; j++)
-			if (ap->black_array[DIMENSION-1][j] == 1){
+			if (ap->black_array[DIMENSION-1][j]){
 				ap->isActive = 0;
 				ap->winner = 2;
 				return 2;
@@ -230,7 +228,6 @@ void rollback(game* ap, int row_i, int col_i, int row_f, int col_f){
 			return;
 		}
 	}
-	return;
 }
 
 int crude_moves(game* ap, int** row_i, int** col_i, int** row_f, int** col_f){
@@ -289,8 +286,10 @@ int heuristic_eval(game* ap){
 	// Check game over
 	if (!ap->isActive){
 
+		// White win
 		if (ap->winner == 1)
 			return INT_MAX-1;
+		// Black win
 		else
 			return INT_MIN+1;
 	}
