@@ -14,6 +14,11 @@
 
 int main(){
 
+	/*
+	// Test time of algo
+	time_benchmark();
+	*/
+
 	// Play as white
 	play_against_comp(NULL, 1);
 
