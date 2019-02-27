@@ -19,8 +19,13 @@ int main(){
 	time_benchmark();
 	*/
 
+	/*
 	// Play as white
 	play_against_comp(NULL, 1);
+	*/
+	
+	// Watch the computers fight
+	computer_brawl(NULL);
 
 	return 0;
 }
